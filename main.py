@@ -1,16 +1,28 @@
-# This is a sample Python script.
+from flask import Flask, request, jsonify
+from ml_model import train_and_predict
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+app = Flask(__name__)
+
+@app.route('/predict_level', methods=['POST'])
+def predict_level():
+    data = request.get_json()
+
+    question = data['question']
+
+    predicted_level = train_and_predict(question)
+
+    response = {'predicted_level': predicted_level}
+    return jsonify(response)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+@app.route('/k', methods=['GET'])
+def predict_level1():
+
+    return "hi this srk"
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    app.run(host='0.0.0.0', port=5002)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
